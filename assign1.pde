@@ -2,7 +2,7 @@ int canvas_width=640,canvas_height=480;
 
 int chunk_size=80;
 
-int soldier_sp=2,soldier_posx=0;
+int soldier_sp=2,soldier_posx=0,solider_posy;
 
 int lifes_point=3,lifes_space=20,lifes_size=50;
 
@@ -37,6 +37,8 @@ void setup() {
 
 	laser_length=10;
 	laser_pos=0;
+
+  solider_posy=((int)random(2,6))*chunk_size;
 }
 
 void draw() {
@@ -53,9 +55,10 @@ void draw() {
 	//set walkingSoilder
 	soldier_posx+=soldier_sp;
 	if(soldier_posx>=canvas_width){
+    solider_posy=((int)random(2,6))*chunk_size;
 		soldier_posx=-chunk_size;
 	}
-	image(solider_img, soldier_posx, canvas_height/3);
+	image(solider_img, soldier_posx, solider_posy);
 
 	//set Sun
 	fill(255,255,0);
