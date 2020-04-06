@@ -11,8 +11,8 @@ int sun_innersize=120,sun_outersize=10;
 int grass_height=15;
 
 float  robot_posx,robot_posy;
-float laser_height=10,laserL_max=40,laser_range=2*chunk_size,laser_speed=2;
-float laser_length,laser_pos;
+float laser_height=10,laser_width=40,laserL_max=40,laser_range=2*chunk_size,laser_speed=2;
+float laser_length=0,laser_pos=0;
 
 PImage backg_img;
 PImage groundhog_img;
@@ -32,13 +32,13 @@ void setup() {
 	solider_img =loadImage("img\\soldier.png");
 
 	//intialize Robot's position by randon
-	robot_posx=ceil(random(5)+2);
-	robot_posy=ceil(random(4)+2);
+	robot_posx=round(random(5)+1)*chunk_size;
+	robot_posy=round(random(4)+1)*chunk_size;
 
 	laser_length=10;
-	laser_pos=0;
+	laser_pos=robot_posx+25;
 
-  solider_posy=((int)random(2,6))*chunk_size;
+  	solider_posy=((int)random(2,6))*chunk_size;
 }
 
 void draw() {
@@ -62,11 +62,9 @@ void draw() {
 
 	//set Sun
 	fill(255,255,0);
-	//circle(canvas_width-50,50,sun_innersize+sun_outersize);
-	ellipse(canvas_width-50,50,sun_innersize+sun_outersize,sun_innersize+sun_outersize)
+	circle(canvas_width-50,50,sun_innersize+sun_outersize);
 	fill(253,184,19);
-	//circle(canvas_width-50,50,sun_innersize);
-	ellipse(canvas_width-50,50,sun_innersize,sun_innersize)
+	circle(canvas_width-50,50,sun_innersize);
 
 	//set Grass
 	fill(124,204,25);
@@ -76,15 +74,19 @@ void draw() {
 	image(groundhog_img,canvas_width/2-chunk_size/2,chunk_size);
 
 	//set Robot
-	image(robot_img,robot_posx*chunk_size,robot_posy*chunk_size);
+	image(robot_img,robot_posx,robot_posy);
 
 	//Robot's shoot
 	fill(255,0,0);
-	ellipse(robot_posx*chunk_size-laser_pos+25,robot_posy*chunk_size+37,laser_length,laser_height);
-	laser_pos+=2;
-	laser_length=laser_pos/(2*chunk_size+25)*40;
-	if(laser_pos>2*chunk_size+25){
-		laser_pos=0;
-		laser_length=10;
+	if(laser_pos<=robot_posx-laser_range){
+		laser_length=0;
+		laser_pos=robot_posx+25;
+	}else if(laser_length<laser_width){
+		laser_length+=laser_speed;
+		laser_pos-=laser_speed;
+	}else{
+		laser_pos-=laser_speed;
 	}
+	rect(laser_pos,robot_posy+37,laser_length,laser_height,laser_height/2);
+
 }
