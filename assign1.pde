@@ -32,7 +32,7 @@ void setup() {
 	solider_img =loadImage("img\\soldier.png");
 
 	//intialize Robot's position by randon
-	robot_posx=round(random(5)+1)*chunk_size;
+	robot_posx=round(random(5)+2)*chunk_size;
 	robot_posy=round(random(4)+1)*chunk_size;
 
 	laser_length=10;
